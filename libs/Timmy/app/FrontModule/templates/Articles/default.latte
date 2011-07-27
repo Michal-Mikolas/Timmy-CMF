@@ -1,0 +1,14 @@
+{block #head}
+{/block}
+
+
+
+{block #content}
+
+  {foreach $articles as $article}
+  <a href="{link Timmy\FrontModule\Articles:show, url_name=>$article->url_name}">{$article["name"]}</a>
+  <p>{!$article["perex"]}</p>
+  {/foreach}
+  {if !$articles}Žádné články nenalezeny.{/if}
+
+{/block}

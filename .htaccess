@@ -1,0 +1,10 @@
+#
+# Tento soubor umožňuje mít celou aplikace v rootu webu, a přitom nemít v URL
+# adresář "www".
+#
+# POZOR! Nefunguje v podsložce
+#
+
+RewriteEngine on
+
+RewriteRule ^(.*)$ /www/$1 [L,NE]

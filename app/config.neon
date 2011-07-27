@@ -1,0 +1,55 @@
+#
+# SECURITY WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+#
+# If you don't protect this directory from direct web access, anybody will be able to see your passwords.
+# http://nette.org/security-warning
+#
+common:
+    php: # PHP configuration
+        date.timezone: Europe/Prague
+        # session.save_path: "%tempDir%/sessions"
+        # zlib.output_compression: yes
+        
+    template: Military
+
+    database:
+        driver: mysql
+        host: localhost
+        username: root
+        password: 
+        database: military
+        charset: utf8
+        profiler: FALSE
+        lazy: TRUE
+        substitutes:
+            prefix: nc_
+    
+    services:
+        robotLoader:
+            run: true
+
+        database:
+            class: Nette\Database\Connection
+            arguments: ['%database.driver%:host=%database.host%;dbname=%database.database%', '%database.username%', '%database.password%']
+            
+        dibi:
+            factory: [@model, createDibiService]
+            arguments: []
+
+        model:
+            class: Model
+            arguments: [@database]
+            
+        authenticator: 
+            factory: [@model, createAuthenticatorService]
+            
+        presenterFactory:   #dovoluje načítat presentery z namespace Timmy
+            class: Timmy\PresenterFactory
+            arguments: [%appDir%, @container]
+        
+
+production < common:
+
+development < common:
+
+console < common:

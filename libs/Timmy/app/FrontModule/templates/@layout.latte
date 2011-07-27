@@ -1,0 +1,56 @@
+{**
+ * Timmy CMF layout template.
+ *
+ * @copyright  Copyright (c) 2010 Michal Mikoláš
+ * @package    Timmy
+ *
+ * @param string   $basePath web base path
+ * @param string   $robots   tell robots how to index the content of a page (optional)
+ * @param array    $flashes  flash messages
+ *}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<meta name="description" content="Timmy CMF web application skeleton">
+	<meta name="robots" content="{$robots}" n:ifset="$robots">
+
+	<title>Timmy Application Skeleton</title>
+
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css" type="text/css">
+	<link rel="stylesheet" media="print" href="{$basePath}/css/print.css" type="text/css">
+	<link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
+
+  <!-- jQuery -->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
+  <!-- jQuery UI -->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery-ui-i18n.min.js">/*použití: $("#datepicker").datepicker($.datepicker.regional['cs']);*/</script>
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css" type="text/css" />
+
+  {block #head}{/block}
+</head>
+
+<body>
+  <div id="wrapper">
+  	<div id="logo"></div>
+  	
+    <h1>Congratulations!</h1>
+    <h2>You have successfully created your Timmy CMF project.</h2>
+    <hr>
+
+    <div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+  	
+    {block #content}{/block}
+    
+    <ul id="environment">
+  		<li>PHP {=PHP_VERSION}</li>
+  		<li n:ifset="$_SERVER['SERVER_SOFTWARE']">Server {$_SERVER['SERVER_SOFTWARE']}</li>
+  		<li>Nette Framework {=Nette\Framework::VERSION}</li>
+  	</ul>
+  </div>
+</body>
+</html>
