@@ -7,7 +7,14 @@
  * @param array    $flashes  flash messages
  *}
  
-{block #head}{/block}
+{block #head}
+<style type="text/css">
+.article {
+  border-bottom: 2px solid #F4EBDB;
+  margin-bottom: 10px; 
+}
+</style>
+{/block}
 
 
 
@@ -15,8 +22,10 @@
   <h2>Articles</h2>
   
   {foreach $articles as $article}
-  <a href="{link Articles:show, name_slug=>$article->name_slug}">{$article->name}</a>
-  <p>{!$article->perex_html}</p>
+  <div class="article">
+    <a href="{link Articles:show, name_slug=>$article->name_slug}">{$article->name}</a>
+    <p>{!$article->perex_html}</p>
+  </div>
   {/foreach}
   {if !$articles}Žádné články nenalezeny.{/if}
 {/block}
