@@ -19,10 +19,11 @@ common:
         password: 
         database: timmy
         charset: utf8
-        profiler: FALSE
+        profiler: TRUE
         lazy: TRUE
         substitutes:
-            prefix: tm_
+            #you can specify table prefix here
+            #prefix: tm_   
     
     services:
         robotLoader:
@@ -36,7 +37,7 @@ common:
             factory: [@model, createDibiService]
 
         model:
-            class: Model
+            class: Timmy\Model
             arguments: [@database]
             
         authenticator: 

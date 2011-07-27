@@ -21,8 +21,6 @@ class BasePresenter extends \Nette\Application\UI\Presenter
     {
         parent::startup();
         
-        $this->context->dibi->getSubstitutes()->{''} = $this->context->params['database']['substitutes']['prefix'];
-        
         // Nette addons
         Debugger::addPanel(new Stopwatch());
         Todo::register($this->context->params['appDir']);

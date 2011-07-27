@@ -11,9 +11,9 @@ namespace Timmy\FrontModule;
 class ArticlesPresenter extends BasePresenter
 {
 
-    public function renderDefault($label)
+    public function renderDefault($tag)
     {
-        $this->template->articles = $this->context->articlesModel->getAll();
+        $this->template->articles = $this->context->articlesModel->getAll($tag);
     }
 
     public function renderShow($name_slug)

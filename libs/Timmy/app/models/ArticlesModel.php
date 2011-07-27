@@ -23,9 +23,20 @@ class ArticlesModel
     
     
 
-    public function getAll()
+    public function getAll($tag = NULL)
     {
-        return $this->dibi->fetchAll("SELECT * FROM `::articles` ORDER BY `created` DESC");
+        return $this->dibi->fetchAll("
+            SELECT * FROM `::articles` 
+            %if", $tag, "   #only articles with selected tag 
+              WHERE `id` IN (
+                SELECT a2t.`article_id` 
+                FROM `::tags` t JOIN `::articles_2_tags` a2t
+                  ON (t.`id`=a2t.`tag_id`)
+                WHERE `name_slug`=%s", $tag, "
+              )
+            %end
+            ORDER BY `order` ASC
+        ");
     }
 
     
