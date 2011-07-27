@@ -30,9 +30,9 @@ class ArticlesModel
 
     
     
-    public function getArticle($url_name)
+    public function getArticle($name_slug)
     {
-        return $this->dibi->fetch("SELECT * FROM `::articles` WHERE `url_name`=%s", $url_name);
+        return $this->dibi->fetch("SELECT * FROM `::articles` WHERE `name_slug`=%s", $name_slug);
     }
 
     
@@ -50,14 +50,14 @@ class ArticlesModel
     public function updateArticle($url_name, $values)
     {
         $values['edited'] = date("Y-n-j G:i:s");
-        return $this->dibi->query("UPDATE `::articles` SET ", $values, "WHERE `url_name`=%s", $url_name);
+        return $this->dibi->query("UPDATE `::articles` SET ", $values, "WHERE `name_slug`=%s", $url_name);
     }
 
     
     
     public function delete($url_name)
     {
-        $this->dibi->query("DELETE FROM `::articles` WHERE `url_name`=%s", $url_name);
+        $this->dibi->query("DELETE FROM `::articles` WHERE `name_slug`=%s", $url_name);
         return $this->dibi->affectedRows();
     }
     

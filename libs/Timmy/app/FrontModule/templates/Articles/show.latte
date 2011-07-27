@@ -1,41 +1,18 @@
+{**
+ * @copyright  Copyright (c) 2010 Michal Mikoláš <nanuqcz@gmail.com>
+ * @package    Timmy
+ *
+ * @param string   $basePath web base path
+ * @param string   $robots   tell robots how to index the content of a page (optional)
+ * @param array    $flashes  flash messages
+ *}
+
+{block #head}{/block}
+
+
+
 {block #content}
-		
-    <div class="article">
-      <h1>{$article->name}</h1>
-      
-      {if count($article->images)}
-      <div class="gallery">
-        <strong>Galerie</strong>
-        {foreach $article->images as $image}
-        <a href="{$basePath}/userfiles/articles/{$image->file}" title="{$image->description}"><img src="{$basePath}/userfiles/articles/{$image->file}" {if $iterator->first}class="first"{/if} /></a>
-        {/foreach}
-        <div class="clear"></div>
-      </div>
-      {/if}
-      
-      {if count($article->data) or count($article->files)}
-      <div class="technical-info">
-        <strong>Technická data</strong> 
-        <table>
-          {foreach $article->data as $dat}
-          <tr>
-            <th>{$dat->key}</th>
-            <td>{$dat->value}</td>
-          </tr>
-          {/foreach}
-          {if !count($article->data)}<tr><td colspan="2">Žádná data nezadána.</td></tr>{/if}
-        </table>                           
-        {if count($article->files)}
-          <strong>Přílohy</strong>
-          {foreach $article->files as $file}
-          <a href="{$basePath}/userfiles/articles/{$file->file}" style="color: #000000; text-decoration: none;"><img src="{$file->file|fileicon}" style="border: 0px; position: relative; top: 1px;" /> {$file->file}</a> <br>
-          {/foreach}
-        {/if}
-      </div>
-      {/if}
-      
-      <div class="description">
-        <p>{!$article->perex}</p>
-        <p>{!$article->content}</p>
-      </div>
-    </div>		
+  <h2>{$article->name}</h2>
+  <p>{!$article->perex_html}</p>
+  <p>{!$article->content_html}</p>
+{/block}

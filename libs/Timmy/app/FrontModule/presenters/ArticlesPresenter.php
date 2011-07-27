@@ -16,9 +16,9 @@ class ArticlesPresenter extends BasePresenter
         $this->template->articles = $this->context->articlesModel->getAll();
     }
 
-    public function renderShow($url_name)
+    public function renderShow($name_slug)
     {
-        $this->template->article = $this->context->articlesModel->getArticle($url_name);
+        $this->template->article = $this->context->articlesModel->getArticle($name_slug);
     }
 
 }

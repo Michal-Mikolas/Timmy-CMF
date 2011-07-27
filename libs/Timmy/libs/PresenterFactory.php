@@ -7,7 +7,7 @@ use \Nette,
 
 /**
  * PresenterFactory
- * add loading default Timmy presenters in namespace Timmy
+ * add loading default presenters from namespace Timmy
  * 
  * @author     Michal Mikoláš <nanuqcz@gmail.com>
  * @package    Timmy   
@@ -23,6 +23,7 @@ class PresenterFactory extends Nette\Application\PresenterFactory
     {
         try{
             $class = parent::getPresenterClass($name);
+            
         } catch(InvalidPresenterException $e) {
             $class = 'Timmy\\' . $this->formatPresenterClass($name);
             if (!class_exists($class)) {

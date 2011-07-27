@@ -17,12 +17,12 @@ common:
         host: localhost
         username: root
         password: 
-        database: military
+        database: timmy
         charset: utf8
         profiler: FALSE
         lazy: TRUE
         substitutes:
-            prefix: nc_
+            prefix: tm_
     
     services:
         robotLoader:
@@ -34,7 +34,6 @@ common:
             
         dibi:
             factory: [@model, createDibiService]
-            arguments: []
 
         model:
             class: Model
@@ -43,7 +42,7 @@ common:
         authenticator: 
             factory: [@model, createAuthenticatorService]
             
-        presenterFactory:   #dovoluje načítat presentery z namespace Timmy
+        presenterFactory:   #loading default presenters from Timmy namespace
             class: Timmy\PresenterFactory
             arguments: [%appDir%, @container]
         

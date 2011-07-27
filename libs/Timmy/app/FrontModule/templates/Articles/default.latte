@@ -1,14 +1,22 @@
-{block #head}
-{/block}
+{**
+ * @copyright  Copyright (c) 2010 Michal Mikoláš <nanuqcz@gmail.com>
+ * @package    Timmy
+ *
+ * @param string   $basePath web base path
+ * @param string   $robots   tell robots how to index the content of a page (optional)
+ * @param array    $flashes  flash messages
+ *}
+ 
+{block #head}{/block}
 
 
 
 {block #content}
-
+  <h2>Articles</h2>
+  
   {foreach $articles as $article}
-  <a href="{link Timmy\FrontModule\Articles:show, url_name=>$article->url_name}">{$article["name"]}</a>
-  <p>{!$article["perex"]}</p>
+  <a href="{link Articles:show, name_slug=>$article->name_slug}">{$article->name}</a>
+  <p>{!$article->perex_html}</p>
   {/foreach}
   {if !$articles}Žádné články nenalezeny.{/if}
-
 {/block}
