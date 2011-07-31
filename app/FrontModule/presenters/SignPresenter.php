@@ -10,7 +10,7 @@ use Nette\Application\UI,
  * @author     John Doe
  * @package    MyApplication
  */
-class SignPresenter extends BasePresenter
+class SignPresenter extends UI\Presenter//BasePresenter
 {
 
 

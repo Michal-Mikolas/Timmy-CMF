@@ -17,7 +17,7 @@ class ArticlesPresenter extends BasePresenter
     {
         $offset = $this['visualPaginator']->getPaginator()->offset;
         $itemsPerPage = $this['visualPaginator']->getPaginator()->itemsPerPage;
-        $this->template->articles = $this->context->articlesModel->getAll($offset, $itemsPerPage, $tag);
+        $this->template->articles = $this->context->articlesModel2->getAll($offset, $itemsPerPage, $tag);
     }
 
     public function renderShow($name_slug)

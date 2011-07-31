@@ -20,7 +20,7 @@ class TimmyLoader extends Nette\Object
         $configurator = Configurator::$instance;
         $container = $configurator->loadConfig(dirname(__DIR__) . '/app/config.neon');
         
-        //$container->extensionsLoader->load();
+        $container->extensionsLoader->load();
     }
 
 } 

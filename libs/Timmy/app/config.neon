@@ -18,9 +18,9 @@ common:
             class: Timmy\PresenterFactory
             arguments: [%appDir%, @container]
             
-        #extensionsLoader:
-        #    class: Timmy\ExtensionsLoader
-        #    arguments: [@conatiner]
+        extensionsLoader:
+            class: Timmy\ExtensionsLoader
+            arguments: [%appDir%, @container]
         
 
 production < common:
