@@ -1,0 +1,30 @@
+#
+# This config.neon extends APP_DIR/config.neon
+#
+common:
+    services:
+        articlesModel: 
+            class: Timmy\ArticlesModel
+            arguments: [@dibi]
+            
+        stopwatch: 
+            class: Stopwatch
+
+        dbTools: 
+            class: Stopwatch
+            arguments: [@dibi, %database.substitutes.prefix%]
+            
+        presenterFactory:   #loading default presenters from Timmy namespace
+            class: Timmy\PresenterFactory
+            arguments: [%appDir%, @container]
+            
+        #extensionsLoader:
+        #    class: Timmy\ExtensionsLoader
+        #    arguments: [@conatiner]
+        
+
+production < common:
+
+development < common:
+
+console < common:

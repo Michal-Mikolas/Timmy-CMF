@@ -1,3 +1,4 @@
+/* Default Nette */
 html {
 	border-top: 8.7em solid #F4EBDB;
 }
@@ -112,5 +113,37 @@ div.flash {
 a[href^="error:"] {
 	background: red;
 	color: white;
+}
+
+
+
+/* Paginator */
+.paginator {
+	margin: 1em 0;
+	font-size: 90%;
+	text-align: center;
+}
+
+.paginator a, .paginator span {
+	margin-right: 0.1em;
+	padding: 0.2em 0.5em;
+	color: #999999;
+}
+
+.paginator a {
+	border: 1px solid #9AAFE5;
+	text-decoration: none;
+	color: #105CB6;
+}
+
+.paginator span.button {
+	border: 1px solid #DDDDDD;
+}
+
+.paginator .current {
+	background: #2E6AB1;
+	border: 1px solid #2E6AB1;
+	color: white;
+	font-weight: bold;
 }
 

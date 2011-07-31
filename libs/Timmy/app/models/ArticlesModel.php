@@ -23,7 +23,7 @@ class ArticlesModel
     
     
 
-    public function getAll($tag = NULL)
+    public function getAll($offset = NULL, $itemsPerPage = NULL, $tag = NULL)
     {
         return $this->dibi->fetchAll("
             SELECT * FROM `::articles` 
@@ -36,6 +36,7 @@ class ArticlesModel
               )
             %end
             ORDER BY `order` ASC
+            LIMIT %i", $offset, ", %i", $itemsPerPage, "
         ");
     }
 
@@ -44,6 +45,13 @@ class ArticlesModel
     public function getArticle($name_slug)
     {
         return $this->dibi->fetch("SELECT * FROM `::articles` WHERE `name_slug`=%s", $name_slug);
+    }
+    
+    
+    
+    public function getArticlesCount()
+    {
+        return $this->dibi->fetchSingle("SELECT COUNT(*) FROM `::articles`");
     }
 
     
