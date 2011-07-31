@@ -3,7 +3,7 @@
 namespace Timmy;
 
 use \Nette;
-use \Dibi;
+use \DibiConnection;
 
 /**
  * Model base class.
@@ -38,7 +38,7 @@ class Model extends Nette\Object
             $container->params['database']['substitutes']['prefix'] = '';
         }
         
-        $connection = Dibi::connect($container->params['database']);
+        $connection = new DibiConnection($container->params['database']);
         $connection->getSubstitutes()->{''} = $container->params['database']['substitutes']['prefix'];
         return $connection;
     }

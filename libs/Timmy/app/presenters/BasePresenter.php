@@ -25,22 +25,6 @@ class BasePresenter extends \Nette\Application\UI\Presenter
         Debugger::addPanel(new Stopwatch());
         Todo::register($this->context->params['appDir']);
         TimerPanel::register($this->context->params['appDir']);
-        
-        // Services
-        if (!$this->context->hasService('articlesModel')) {
-            $this->context->addService('articlesModel', function($context){
-                return new \Timmy\ArticlesModel($context->dibi);
-            });
-        }
-
-        $this->context->addService('stopwatch', function(){
-            return new Stopwatch();
-        });
-
-        $this->context->addService('dbTools', function($container){
-            return new DbTools($container->dibi, $container->params['database']['substitutes']['prefix']);
-        });
-        
     }
     
     

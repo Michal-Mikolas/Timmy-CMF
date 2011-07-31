@@ -46,6 +46,18 @@ common:
         presenterFactory:   #loading default presenters from Timmy namespace
             class: Timmy\PresenterFactory
             arguments: [%appDir%, @container]
+
+        articlesModel:   # @todo přenést do ExtensionLoaderu 
+            class: Timmy\ArticlesModel
+            arguments: [@dibi]
+            
+        stopwatch:       # @todo vymyslet, jak to načíst automaticky bez config.neon 
+            class: Stopwatch
+
+        dbTools:         # @todo vymyslet, jak to načíst automaticky bez config.neon 
+            class: Stopwatch
+            arguments: [@dibi, %database.substitutes.prefix%]
+        # @todo ...možná zavést Timmy\IDebugbarExtesion s metodou register?
         
 
 production < common:
