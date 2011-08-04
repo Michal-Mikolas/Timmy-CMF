@@ -1,0 +1,42 @@
+{**
+ * Timmy CMF layout template.
+ *
+ * @copyright  Copyright (c) 2010 Michal Mikoláš <nanuqcz@gmail.com>
+ * @package    Timmy
+ *
+ * @param string   $basePath web base path
+ * @param string   $robots   tell robots how to index the content of a page (optional)
+ * @param array    $flashes  flash messages
+ *}
+ 
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="robots" content="noindex">
+	<meta name="generator" content="Nette Framework">
+
+	<title>Timmy administration</title>
+
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/Timmy/AdminModule/css/screen.css" type="text/css">
+	<link rel="shortcut icon" href="{$basePath}/Timmy/FrontModule/favicon.ico" type="image/x-icon">
+
+  <!-- jQuery -->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
+  <!-- jQuery UI -->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery-ui-i18n.min.js">/*použití: $("#datepicker").datepicker($.datepicker.regional['cs']);*/</script>
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css" type="text/css" />
+
+  {block #head}{/block}
+</head>
+
+<body>
+  <div id="wrapper">
+  	<h1>Administrace</h1>
+    {block #content}
+  	{/block}
+  </div>
+</body>
+</html>

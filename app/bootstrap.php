@@ -34,8 +34,10 @@ $container->timmyLoader->load();  //loads Timmy CMF core
 $router = $container->router;
 
 //default Timmy routers
+$router[] = $adminRouter = new RouteList('Admin');
+$adminRouter[] = new Route('admin/<presenter>/<action>[/<id>]', 'Homepage:default');
+
 $router[] = $frontRouter = new RouteList('Front');
-$frontRouter[] = new Route('index.php', 'Homepage:default', Route::ONE_WAY);
 $frontRouter[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
 
 
