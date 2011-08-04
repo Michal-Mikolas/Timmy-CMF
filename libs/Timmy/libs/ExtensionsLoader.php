@@ -37,7 +37,8 @@ class ExtensionsLoader extends Nette\Object
 
     
     /**
-     * Loads CMS extensions    
+     * Loads CMS extensions 
+     * @return void        
      */
     public function load()
     {
@@ -66,7 +67,8 @@ class ExtensionsLoader extends Nette\Object
     /**
      * Load classes that implements chosen extensions
      * @param string
-     * @param array          
+     * @param array
+     * @return array               
      */
     protected function loadClasses($baseDir, $interfaces)
     {
@@ -94,7 +96,8 @@ class ExtensionsLoader extends Nette\Object
      * Filter class by their interfaces and add it to $classes array    
      * @param string
      * @param array
-     * @param array          
+     * @param array 
+     * @return void              
      */         
     protected function filterClass($class, $interfaces, & $classes)
     {
