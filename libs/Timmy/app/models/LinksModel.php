@@ -97,10 +97,10 @@ class LinksModel
     protected function createTree($links, $parent_id = 0)
     {
         $linksTree = array();
-        foreach($this->allLinks as $link){
+        foreach($links as $link){
             if ($link->parent_id == $parent_id) {
                 $link->childs = $this->createTree($links, $link->id);
-                $linksTree[] = $link;
+                $linksTree[] = clone $link;   //clone - fix bug with rewriting filtered links
             }
         }
         

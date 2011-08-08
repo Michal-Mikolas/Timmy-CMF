@@ -148,7 +148,8 @@ class LinksControl extends Control
     protected function markActive($linksTree, $requestId, $linksModel)
     {
         foreach($linksTree->childs as $key => $link){
-            if ($this->presenter->isCurrent($link->destination, $link->args)) {
+            $this->isActive($link->id);
+            if ($this->isActive($link->id)) {
                 $linksTree->childs[$key]->active = TRUE;
             }
             $linksTree->childs[$key] = $this->markActive($link, $requestId, $linksModel);
