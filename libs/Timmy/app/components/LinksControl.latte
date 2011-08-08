@@ -1,0 +1,11 @@
+<h3>{$link->name}</h3>
+{block #linksControl}
+  <ul>
+  {foreach $link->childs as $child}
+    <li>
+      <a href="{$child->href}">{$child->name} ({= $child->active? 'on': 'off' })</a>
+      {if count($child->childs)}{include #linksControl, link => $child}{/if}
+    </li>
+  {/foreach}
+  </ul>
+{/block}

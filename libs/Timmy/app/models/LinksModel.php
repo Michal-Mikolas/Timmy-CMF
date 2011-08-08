@@ -2,6 +2,7 @@
 
 namespace Timmy;
 
+use \Nette\ArrayHash;
 use \DibiConnection;
 
 /**
@@ -18,27 +19,72 @@ class LinksModel
     /** @var array */
     protected $allLinks;
     
-    /** @var array */
-    protected $allLinksTree;
-    
     
     public function __construct(DibiConnection $dibi)
     {
         $this->dibi = $dibi;
+        $this->allLinks = NULL;
     }
     
     
     
     /**
      * @return array
-     */         
-    public function getLinksTree()
+     */
+    public function getLinks()
     {
-        $this->allLinks = $this->dibi->fetchAll("SELECT * FROM `::links` ORDER BY `order` ASC");
+        if (is_null($this->allLinks)) {
+            $this->allLinks = $this->prepareLinks( $this->dibi->query("SELECT * FROM `::links` ORDER BY `order` ASC")->fetchAssoc('id') );
+        }
         
-        $this->allLinksTree = $this->createTree($this->allLinks);
+        return $this->allLinks;
+    }         
+    
+    
+    
+    /**
+     * @param int
+     * @return \DibiRow     
+     */
+    public function getLink($id)
+    {
+        $allLinks = $this->getLinks();
+        return $allLinks[$id];
+    }         
+    
+    
+    
+    /**
+     * @param int    
+     * @return array
+     */         
+    public function getLinksTree($rootId = 0)
+    {
+        $allLinks = $this->getLinks();
         
-        return $this->allLinksTree;
+        if ($rootId) {
+            $allLinksTree = $this->getLink($rootId);
+        } else {
+            $allLinksTree = $this->getEmptyLink();   //assign all links under one main link
+        }
+        $allLinksTree->childs = $this->createTree($allLinks, $rootId);
+        
+        return $allLinksTree;
+    }
+    
+    
+    
+    /**
+     * @return ArrayHash
+     */
+    public function getEmptyLink()
+    {
+        $link = new ArrayHash();
+        $link->id = 0;
+        $link->name = NULL;
+        $link->childs = array();
+        
+        return $link;
     }
     
     
@@ -60,5 +106,21 @@ class LinksModel
         
         return $linksTree;
     }
+    
+    
+    
+    /**
+     * @param array
+     * @return array     
+     */
+    protected function prepareLinks($links)
+    {
+        foreach($links as $key => $link){
+            $links[$key]->active = FALSE;
+            $links[$key]->href = '';
+        }
+        
+        return $links;
+    }             
 
 }

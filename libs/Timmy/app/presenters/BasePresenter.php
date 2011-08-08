@@ -2,7 +2,8 @@
 
 namespace Timmy;
 
-use \Nette\Diagnostics\Debugger;
+use \Nette\Diagnostics\Debugger,
+    \Nette\Application\InvalidLinkException;
 use \Stopwatch;
 use \Panel\Todo;
 use \Panel\TimerPanel;
@@ -25,6 +26,13 @@ class BasePresenter extends \Nette\Application\UI\Presenter
         Debugger::addPanel(new Stopwatch());
         Todo::register($this->context->params['appDir']);
         TimerPanel::register($this->context->params['appDir']);
+    }
+    
+    
+    
+    public function createComponentLinks()
+    {
+        return new LinksControl($this->context->linksModel);
     }
     
     
@@ -112,6 +120,20 @@ class BasePresenter extends \Nette\Application\UI\Presenter
         ));
         
         return $list;
+    }
+    
+    
+    
+    /**
+     * @param string
+     * @return bool
+     */           
+    public function isCurrent($destination, $args = array())
+    {
+        try{ $this->link($destination, $args); } 
+        catch (InvalidLinkException $e) {};
+         
+        return $this->getLastCreatedRequestFlag("current");
     }
 
 }
