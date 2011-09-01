@@ -48,6 +48,8 @@ class ExtensionsLoader extends Nette\Object
             'Timmy\\IRouterSetup',      /** @todo */
             'Timmy\\IControl',          /** @todo */
             'Timmy\\ISearchable',       /** @todo */
+            'Timmy\\IInstallable',      /** @todo */
+            'Timmy\\IGlobal',           /** @todo */
         );
 
         // Find classes in appDir folder 

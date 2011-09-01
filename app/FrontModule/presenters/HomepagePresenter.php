@@ -11,7 +11,7 @@ namespace FrontModule;
 class HomepagePresenter extends BasePresenter
 {
 
-    public function renderDefault()
+    public function renderDefault($label)
     {
         $this->template->anyVariable = 'any value';
     }

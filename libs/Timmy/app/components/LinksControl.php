@@ -7,12 +7,15 @@ use \Nette\Application\UI\Control,
     \Nette\ArrayHash;
 use \Timmy\LinksModel;
 
+  
 /**
  * LinksControl
  * control to render links tree, filtered with various conditions
  * 
  * @author     Michal Mikoláš <nanuqcz@gmail.com>             
  * @package    Timmy
+ * 
+ * @todo add $link->hidden property  
  */ 
 class LinksControl extends Control 
 {
@@ -25,7 +28,8 @@ class LinksControl extends Control
     /** @var LinksModel */
     protected $linksModel;
     
-    /** @todo public $filters; */
+    /** @var array  callbacks that filter links, add some features etc. */
+    public $filters;
 
     
     public function __construct(LinksModel $linksModel)
@@ -34,6 +38,13 @@ class LinksControl extends Control
         
         $this->templateFile = __DIR__ . '/LinksControl.latte';
         $this->linksModel = $linksModel;
+        
+        $this->filters = array(
+            array($this, 'filterByParent'),
+            array($this, 'filterByConditions'),
+            array($this, 'markActive'),
+            array($this, 'constructUrls'),  
+        );
     }
     
     
@@ -42,7 +53,7 @@ class LinksControl extends Control
      * @param string $requestId  id of link, whose childs have to be rendered
      * @return void     
      */         
-    public function render($requestId)
+    public function render($requestId = 0)
     {
         $this->template = $this->getTemplate();
         $this->template->setFile($this->templateFile);
@@ -72,11 +83,9 @@ class LinksControl extends Control
      */         
     protected function filterLinks($linksTree, $requestId)
     {
-        // Filters
-        $linksTree = $this->filterByParent($linksTree, $requestId, $this->linksModel);
-        $linksTree = $this->filterByConditions($linksTree, $requestId, $this->linksModel);
-        $linksTree = $this->markActive($linksTree, $requestId, $this->linksModel);
-        $linksTree = $this->constructUrls($linksTree, $requestId, $this->linksModel);
+        foreach($this->filters as $filter){
+            $linksTree = call_user_func($filter, $linksTree, $requestId, $this->linksModel);
+        }
         
         return $linksTree;
     }
@@ -168,6 +177,16 @@ class LinksControl extends Control
     protected function constructUrls($linksTree, $requestId, $linksModel)
     {
         foreach($linksTree->childs as $key => $link){
+            if ($link->destination) {
+                $linksTree->childs[$key]->href = $this->presenter->link($link->destination, eval("return array($link->args);"));
+            } else { 
+                $linksTree->childs[$key]->href = $link->url;
+            }
+            
+            // Construct URLs for link`s childs
+            if (count($link->childs)) {
+                $link = $this->constructUrls($link, $requestId, $linksModel);
+            }
         }
         
         return $linksTree;
@@ -184,7 +203,7 @@ class LinksControl extends Control
         $conditionLink = $this->linksModel->getLinksTree($linkId);
         
         // link active?
-        if ($this->presenter->isCurrent($conditionLink->destination, $conditionLink->args)) {
+        if ($this->presenter->isCurrent($conditionLink->destination, eval("return array($conditionLink->args);"))) {
             return TRUE;
         }
         

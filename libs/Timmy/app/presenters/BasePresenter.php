@@ -4,9 +4,6 @@ namespace Timmy;
 
 use \Nette\Diagnostics\Debugger,
     \Nette\Application\InvalidLinkException;
-use \Stopwatch;
-use \Panel\Todo;
-use \Panel\TimerPanel;
 
 
 /**
@@ -23,13 +20,16 @@ class BasePresenter extends \Nette\Application\UI\Presenter
         parent::startup();
         
         // Nette addons
-        Debugger::addPanel(new Stopwatch());
-        Todo::register($this->context->params['appDir']);
-        TimerPanel::register($this->context->params['appDir']);
+        if (class_exists('\\Stopwatch')) Debugger::addPanel(new \Stopwatch());
+        if (class_exists('\\Panel\\Todo')) \Panel\Todo::register($this->context->params['appDir']);
+        if (class_exists('\\Panel\\TimerPanel')) \Panel\TimerPanel::register($this->context->params['appDir']);
     }
     
     
     
+    /**
+     * @return LinksControl
+     */         
     public function createComponentLinks()
     {
         return new LinksControl($this->context->linksModel);
@@ -44,15 +44,12 @@ class BasePresenter extends \Nette\Application\UI\Presenter
     public function formatTemplateFiles()
     {
         $files = array();
+        $template = isset($this->context->params['template'])? $this->context->params['template']: '';
+        $presenter = substr($this->name, strrpos(':' . $this->name, ':'));  //Front:Articles » Articles
+        $presenter = substr($presenter, strrpos('\\' . $presenter, '\\'));  //Timmy\Articles » Articles
         
-        $template = '';
-        if (isset($this->context->params['template'])) $template = $this->context->params['template'];
-        
-        // Template dir from config.neon
+        // 1) Templates in sub-directory (from config.neon)
         if ($template) {
-            $name = $this->getName();
-            $presenter = substr($name, strrpos(':' . $name, ':'));              //Front:Articles » Articles
-            $presenter = substr($presenter, strrpos('\\' . $presenter, '\\'));  //Timmy\Articles » Articles
             $dir = dirname(dirname($this->getReflection()->getFileName()));
             $files = array_merge($files, array(
                 "$dir/templates/$template/$presenter/$this->view.latte",
@@ -60,15 +57,16 @@ class BasePresenter extends \Nette\Application\UI\Presenter
                 "$dir/templates/$template/$presenter/$this->view.phtml",
                 "$dir/templates/$template/$presenter.$this->view.phtml",
             ));
-        } else {
-            $files = array_merge($files, parent::formatTemplateFiles());
         }
         
-        // Default Timmy templates
+        // 2) Default Nette directories
+        $files = array_merge($files, parent::formatTemplateFiles());
+        
+        // 3) Default Timmy templates
         $dir = dirname(__DIR__);
-        if ($this->getReflection()->getNamespaceName()) {
+        if ($this->getReflection()->getNamespaceName()) 
             $dir.= '/' . preg_replace('#^Timmy\\\\#', '', $this->getReflection()->getNamespaceName());
-        }
+        
         $files = array_merge($files, array(
             "$dir/templates/$presenter/$this->view.latte",
         ));
@@ -85,16 +83,15 @@ class BasePresenter extends \Nette\Application\UI\Presenter
     public function formatLayoutTemplateFiles()
     {
         $list = array();
+        $template = isset($this->context->params['template'])? $this->context->params['template']: '';
+        $presenter = substr($this->name, strrpos(':' . $this->name, ':'));
+        $presenter = substr($presenter, strrpos('\\' . $presenter, '\\'));  //Timmy\Articles » Articles
+        $layout = $this->layout? $this->layout: 'layout';
         
-        $template = '';
-        if (isset($this->context->params['template'])) $template = $this->context->params['template'];
-        
-        // Template dir from config.neon
+        // 1) Templates in sub-directory (from config.neon)
         if ($template) {
-            $name = $this->getName();
-            $presenter = substr($name, strrpos(':' . $name, ':'));
-            $layout = $this->layout ? $this->layout : 'layout';
             $dir = dirname(dirname($this->getReflection()->getFileName()));
+            $name = $this->getName();
             $list = array_merge($list, array(
                 "$dir/templates/$template/$presenter/@$layout.latte",
                 "$dir/templates/$template/$presenter.@$layout.latte",
@@ -106,18 +103,23 @@ class BasePresenter extends \Nette\Application\UI\Presenter
                 $list[] = "$dir/templates/$template/@$layout.phtml";
                 $dir = dirname($dir);
             } while ($dir && ($name = substr($name, 0, strrpos($name, ':'))));
-        } else {
-            $list = array_merge($list, parent::formatLayoutTemplateFiles());
         }
+
+        // 2) Default Nette directories
+        $list = array_merge($list, parent::formatLayoutTemplateFiles());
         
-        // Default Timmy templates
+        // 3) Default Timmy templates
         $dir = dirname(__DIR__);
-        if ($this->getReflection()->getNamespaceName()) {
+        if ($this->getReflection()->getNamespaceName())
             $dir.= '/' . preg_replace('#^Timmy\\\\#', '', $this->getReflection()->getNamespaceName());
-        }
-        $list = array_merge($list, array(
-            "$dir/templates/@$layout.latte",
-        ));
+        $name = $this->getName();
+
+        do {
+            $list = array_merge($list, array(
+                "$dir/templates/@$layout.latte",
+            ));
+            $dir = dirname($dir);
+        } while ($dir && ($name = substr($name, 0, strrpos($name, ':'))));
         
         return $list;
     }
@@ -127,6 +129,8 @@ class BasePresenter extends \Nette\Application\UI\Presenter
     /**
      * @param string
      * @return bool
+     * 
+     * @todo zkontrolovat, jestli na to už není podpora v Nette          
      */           
     public function isCurrent($destination, $args = array())
     {

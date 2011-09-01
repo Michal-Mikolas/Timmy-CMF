@@ -12,7 +12,7 @@ body {
 }
 
 #wrapper {
-	max-width: 780px;
+	max-width: 1000px;  /*780px*/
 	margin: -5.3em auto 0;
 }
 
@@ -22,6 +22,11 @@ h1 {
 	background: url(assets/logo.png) right center no-repeat;
 	color: #7A7772;
 	text-shadow: 1px 1px 0 white;
+	margin-left: 220px;  /*added*/
+}
+h1 a {
+  text-decoration: inherit;
+  color: inherit;
 }
 
 h2 {
@@ -117,4 +122,46 @@ div.failed {
 
 .passed.description {
 	display: none;
+}
+
+
+
+/* Main menu */
+#main-menu {
+  width: 200px;
+  float: left;
+  border-right: 4px solid #E4DED5;
+}
+
+#main-menu ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+#main-menu ul ul {
+  padding-left: 30px;
+  list-style-type: circle;
+}
+
+#main-menu a {
+  color: #3484D2;
+	padding: 3px 1px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#main-menu a.active {text-decoration: underline;}
+
+#main-menu a:hover, a:active, a:focus {
+	background-color: #3484D2;
+	color: white;
+}
+
+#main-menu h3 {display: none;}
+
+
+
+/* Content */
+#content {
+  margin-left: 220px;
 }

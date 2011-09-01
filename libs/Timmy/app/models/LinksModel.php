@@ -6,7 +6,7 @@ use \Nette\ArrayHash;
 use \DibiConnection;
 
 /**
- * Links model.
+ * Links model
  *
  * @author     Michal Mikoláš <nanuqcz@gmail.com>             
  * @package    Timmy

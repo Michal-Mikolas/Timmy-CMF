@@ -2,8 +2,8 @@
 {block #linksControl}
   <ul>
   {foreach $link->childs as $child}
-    <li>
-      <a href="{$child->href}">{$child->name} ({= $child->active? 'on': 'off' })</a>
+    <li n:class="$child->active? 'active'">
+      <a href="{=$child->href}" n:class="$child->active? 'active'">{$child->name}</a>
       {if count($child->childs)}{include #linksControl, link => $child}{/if}
     </li>
   {/foreach}

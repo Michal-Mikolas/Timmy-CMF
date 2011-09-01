@@ -10,7 +10,8 @@ common:
         # session.save_path: "%tempDir%/sessions"
         # zlib.output_compression: yes
         
-    template: Military
+    #you can specify your skin folder here
+    #template: MySkin
 
     database:
         driver: mysql

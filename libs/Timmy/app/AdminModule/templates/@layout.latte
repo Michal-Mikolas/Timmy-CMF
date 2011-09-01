@@ -34,9 +34,16 @@
 
 <body>
   <div id="wrapper">
-  	<h1>Administrace</h1>
-    {block #content}
-  	{/block}
+  	<h1><a href="{link :Admin:Homepage:}">Administrace</a></h1>
+    
+    <div id="main-menu">
+      {control links 2}
+    </div>
+    
+    <div id="content">
+      {block #content}
+      {/block}
+  	</div>
   </div>
 </body>
 </html>
